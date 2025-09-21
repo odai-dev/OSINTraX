@@ -13,12 +13,14 @@ import {
   AlertTriangle
 } from "lucide-react";
 import profilePhoto from "@assets/generated_images/OSINT_profile_photo_60520324.png";
+import { useRealTimeData } from "@/contexts/RealTimeDataContext";
 
 interface DataCardsProps {
   isScanning?: boolean;
 }
 
 export default function DataCards({ isScanning = false }: DataCardsProps) {
+  const { getRelativeTime, lastActivity } = useRealTimeData();
   // TODO: Remove mock data
   const mockPersonalData = {
     name: "Ahmed Mohammed Al-Hamdani",
@@ -37,7 +39,7 @@ export default function DataCards({ isScanning = false }: DataCardsProps) {
     digitalFootprint: {
       score: 73,
       risk: "High",
-      lastActivity: "47 minutes ago"
+      lastActivity: getRelativeTime(lastActivity)
     },
     education: "Sana'a University - Information Technology",
     interests: ["Network Security", "Islamic Studies", "Football", "Traditional Yemeni Music"]

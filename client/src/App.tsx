@@ -15,13 +15,16 @@ import ChartsSection from "@/components/ChartsSection";
 import DataHawkModule from "@/components/DataHawkModule";
 import NetworkGraph from "@/components/NetworkGraph";
 import ScanningAnimation from "@/components/ScanningAnimation";
+import LiveTerminal from "@/components/LiveTerminal";
 import ThemeToggle from "@/components/ThemeToggle";
 import NotFound from "@/pages/not-found";
+import { RealTimeDataProvider, useRealTimeData } from "@/contexts/RealTimeDataContext";
 
 function OSINTDashboard() {
   const [activeModule, setActiveModule] = useState("profile");
   const [isScanning, setIsScanning] = useState(false);
   const [scanTarget, setScanTarget] = useState("");
+  const { connectionCount, currentUTC } = useRealTimeData();
 
   const handleScan = (query: string) => {
     setScanTarget(query);
@@ -80,13 +83,19 @@ function OSINTDashboard() {
               <p className="text-xs text-muted-foreground font-mono">
                 Module: {activeModule.charAt(0).toUpperCase() + activeModule.slice(1)} • 
                 Status: {isScanning ? 'SCANNING' : 'READY'} • 
-                Sources: 847 Active
+                Sources: {connectionCount} Active
               </p>
             </div>
           </div>
           <div className="flex items-center gap-2">
             <div className="text-xs text-muted-foreground font-mono">
-              {new Date().toLocaleTimeString()} UTC
+              {currentUTC.toLocaleTimeString('en-US', { 
+                timeZone: 'UTC', 
+                hour12: false, 
+                hour: '2-digit', 
+                minute: '2-digit', 
+                second: '2-digit' 
+              })} UTC
             </div>
             <ThemeToggle />
           </div>
@@ -106,9 +115,17 @@ function OSINTDashboard() {
               />
             )}
             
-            {/* Module Content */}
-            <div data-testid={`module-content-${activeModule}`}>
-              {renderModuleContent()}
+            {/* Live Terminal and Module Content */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              {/* Module Content */}
+              <div className="lg:col-span-2" data-testid={`module-content-${activeModule}`}>
+                {renderModuleContent()}
+              </div>
+              
+              {/* Live Terminal */}
+              <div className="lg:col-span-1">
+                <LiveTerminal />
+              </div>
             </div>
           </div>
         </main>
@@ -119,10 +136,12 @@ function OSINTDashboard() {
 
 function Router() {
   return (
-    <Switch>
-      <Route path="/" component={OSINTDashboard} />
-      <Route component={NotFound} />
-    </Switch>
+    <RealTimeDataProvider>
+      <Switch>
+        <Route path="/" component={OSINTDashboard} />
+        <Route component={NotFound} />
+      </Switch>
+    </RealTimeDataProvider>
   );
 }
 

@@ -23,6 +23,7 @@ import {
   Radar
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { useRealTimeData } from "@/contexts/RealTimeDataContext";
 
 interface OSINTSidebarProps {
   activeModule: string;
@@ -43,6 +44,7 @@ const modules = [
 ];
 
 export default function OSINTSidebar({ activeModule, onModuleChange }: OSINTSidebarProps) {
+  const { connectionCount, activeScans, threatLevel, getRelativeTime, lastUpdate } = useRealTimeData();
   const getStatusColor = (status: string) => {
     switch (status) {
       case "active": return "bg-cyan-500/20 text-cyan-400";
@@ -118,11 +120,21 @@ export default function OSINTSidebar({ activeModule, onModuleChange }: OSINTSide
             </div>
             <div className="flex justify-between text-xs font-mono">
               <span className="text-muted-foreground">Active Scans</span>
-              <span className="text-cyan-400">7</span>
+              <span className="text-cyan-400">{activeScans}</span>
             </div>
             <div className="flex justify-between text-xs font-mono">
               <span className="text-muted-foreground">Data Sources</span>
-              <span className="text-cyan-400">234</span>
+              <span className="text-cyan-400">{connectionCount}</span>
+            </div>
+            <div className="flex justify-between text-xs font-mono">
+              <span className="text-muted-foreground">Threat Level</span>
+              <span className={`${threatLevel === 'CRITICAL' ? 'text-red-400' : threatLevel === 'HIGH' ? 'text-orange-400' : threatLevel === 'MODERATE' ? 'text-yellow-400' : 'text-green-400'}`}>
+                {threatLevel}
+              </span>
+            </div>
+            <div className="flex justify-between text-xs font-mono">
+              <span className="text-muted-foreground">Last Update</span>
+              <span className="text-muted-foreground">{getRelativeTime(lastUpdate)}</span>
             </div>
           </div>
         </div>
