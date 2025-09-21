@@ -69,10 +69,10 @@ export default function ImageFaceLookup({ isScanning }: ImageFaceLookupProps) {
     const steps = [
       "Analyzing image...",
       "Detecting faces...",
-      "Cross-referencing databases...",
+      "Cross-referencing Yemen telecom data...",
       "Extracting metadata...",
-      "Mapping social profiles...",
-      "Generating report..."
+      "Mapping regional social profiles...",
+      "Generating intelligence report..."
     ];
     
     let stepIndex = 0;
@@ -90,17 +90,17 @@ export default function ImageFaceLookup({ isScanning }: ImageFaceLookupProps) {
   };
 
   const fakeMatches = [
-    { id: 1, name: "John Doe", platform: "Instagram", similarity: 87, avatar: "/api/placeholder/40/40", verified: true },
-    { id: 2, name: "Jane Smith", platform: "LinkedIn", similarity: 72, avatar: "/api/placeholder/40/40", verified: false },
-    { id: 3, name: "Mike Johnson", platform: "Twitter", similarity: 65, avatar: "/api/placeholder/40/40", verified: true },
-    { id: 4, name: "Sarah Wilson", platform: "Facebook", similarity: 58, avatar: "/api/placeholder/40/40", verified: false }
+    { id: 1, name: "Ahmed Al-Yamani", platform: "Instagram", similarity: 87, avatar: "/api/placeholder/40/40", verified: true },
+    { id: 2, name: "Fatima Al-Hadhrami", platform: "LinkedIn", similarity: 72, avatar: "/api/placeholder/40/40", verified: false },
+    { id: 3, name: "Omar Al-Salihi", platform: "Twitter", similarity: 65, avatar: "/api/placeholder/40/40", verified: true },
+    { id: 4, name: "Maryam Al-Hashemi", platform: "Facebook", similarity: 58, avatar: "/api/placeholder/40/40", verified: false }
   ];
 
   const fakeMetadata = {
     camera: "Canon EOS R5",
     lens: "RF 24-70mm f/2.8L IS USM",
     timestamp: "2024-09-20 14:32:18",
-    gps: { lat: 37.421998, lng: -122.084000, location: "Mountain View, CA" },
+    gps: { lat: 15.369445, lng: 44.191007, location: "Sana'a, Yemen" },
     fileSize: "2.4 MB",
     dimensions: "6000 x 4000",
     iso: "ISO 400",
@@ -109,9 +109,9 @@ export default function ImageFaceLookup({ isScanning }: ImageFaceLookupProps) {
   };
 
   const fakeSocialContext = {
-    hashtags: ["#travel", "#fitness", "#photography", "#california", "#tech"],
+    hashtags: ["#Yemen", "#Sana'a", "#اليمن", "#photography", "#culture"],
     linkedPlatforms: ["Instagram", "LinkedIn", "Twitter"],
-    commonUsernames: ["john.doe.photo", "johnnyD_87", "jdoe_traveler"]
+    commonUsernames: ["ahmed_yamani_2024", "fatima_hdhrmi", "omar_salihi99"]
   };
 
   return (
@@ -361,7 +361,7 @@ export default function ImageFaceLookup({ isScanning }: ImageFaceLookupProps) {
                 <div className="grid grid-cols-2 gap-4 text-sm font-mono">
                   <div>
                     <div className="text-muted-foreground">Timezone:</div>
-                    <div className="text-foreground">PST (UTC-8)</div>
+                    <div className="text-foreground">AST (UTC+3)</div>
                   </div>
                   <div>
                     <div className="text-muted-foreground">Radius:</div>
