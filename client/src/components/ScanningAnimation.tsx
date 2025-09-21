@@ -24,10 +24,10 @@ export default function ScanningAnimation({ isActive, scanTarget }: ScanningAnim
   // TODO: Remove mock scanning steps
   const scanningSteps = [
     { icon: Search, label: "Initializing OSINT modules", duration: 2000 },
-    { icon: Database, label: "Scanning social media platforms", duration: 3000 },
-    { icon: Shield, label: "Cross-referencing security databases", duration: 2500 },
+    { icon: Database, label: "Scanning regional social networks", duration: 3000 },
+    { icon: Shield, label: "Cross-referencing Yemen telecom data", duration: 2500 },
     { icon: Activity, label: "Analyzing digital footprints", duration: 3500 },
-    { icon: Zap, label: "Calculating risk assessment", duration: 2000 },
+    { icon: Zap, label: "Calculating regional risk factors", duration: 2000 },
     { icon: AlertCircle, label: "Generating intelligence report", duration: 1500 }
   ];
 
@@ -156,20 +156,20 @@ export default function ScanningAnimation({ isActive, scanTarget }: ScanningAnim
             <div className="text-xs text-muted-foreground">Live Data Stream:</div>
             <div className="bg-black/50 rounded p-2 font-mono text-xs space-y-1 max-h-20 overflow-y-auto">
               <div className="text-green-400 animate-scan-pulse">
-                [INFO] Connecting to data sources...
+                [INFO] Connecting to Yemen telecom infrastructure...
               </div>
               <div className="text-cyan-400">
-                [DATA] Found 47 social media profiles
+                [DATA] Found 34 regional social media profiles
               </div>
               <div className="text-yellow-400">
-                [WARN] High exposure detected on LinkedIn
+                [WARN] High activity detected on Islamic forums
               </div>
               <div className="text-cyan-400 animate-data-stream">
-                [DATA] Processing location metadata...
+                [DATA] Processing Sana'a location metadata...
               </div>
               {progress > 50 && (
                 <div className="text-red-400">
-                  [ALERT] Potential data leak detected
+                  [ALERT] Cross-border communication detected
                 </div>
               )}
             </div>

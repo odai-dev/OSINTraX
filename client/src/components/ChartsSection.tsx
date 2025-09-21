@@ -24,10 +24,10 @@ interface ChartsSectionProps {
 export default function ChartsSection({ isScanning = false }: ChartsSectionProps) {
   // TODO: Remove mock chart data
   const socialMediaData = [
-    { platform: "LinkedIn", posts: 45, engagement: 87 },
-    { platform: "Twitter", posts: 23, engagement: 42 },
-    { platform: "GitHub", posts: 67, engagement: 95 },
-    { platform: "Instagram", posts: 12, engagement: 31 }
+    { platform: "LinkedIn", posts: 34, engagement: 68 },
+    { platform: "Twitter", posts: 127, engagement: 89 },
+    { platform: "GitHub", posts: 23, engagement: 76 },
+    { platform: "Instagram", posts: 45, engagement: 92 }
   ];
 
   const riskDistribution = [
@@ -38,12 +38,12 @@ export default function ChartsSection({ isScanning = false }: ChartsSectionProps
   ];
 
   const activityTrend = [
-    { month: "Jan", activity: 65 },
-    { month: "Feb", activity: 59 },
-    { month: "Mar", activity: 80 },
-    { month: "Apr", activity: 81 },
-    { month: "May", activity: 56 },
-    { month: "Jun", activity: 87 }
+    { month: "Aug", activity: 78 },
+    { month: "Sep", activity: 92 },
+    { month: "Oct", activity: 67 },
+    { month: "Nov", activity: 83 },
+    { month: "Dec", activity: 95 },
+    { month: "Jan", activity: 89 }
   ];
 
   if (isScanning) {

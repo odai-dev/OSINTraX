@@ -21,26 +21,26 @@ interface DataCardsProps {
 export default function DataCards({ isScanning = false }: DataCardsProps) {
   // TODO: Remove mock data
   const mockPersonalData = {
-    name: "Alex Richardson",
-    age: 32,
-    location: "San Francisco, CA",
-    occupation: "Software Engineer",
-    company: "TechCorp Inc.",
-    email: "a.richardson@techcorp.com",
-    phone: "+1 (555) 123-4567",
+    name: "Ahmed Mohammed Al-Hamdani",
+    age: 28,
+    location: "Sana'a, Yemen",
+    occupation: "Network Administrator",
+    company: "Yemen Telecommunications Corp",
+    email: "a.alhamdani@yementelecom.ye",
+    phone: "+967 1 234-567",
     socialMedia: [
-      { platform: "LinkedIn", username: "@alex-richardson", verified: true },
-      { platform: "Twitter", username: "@alexr_dev", verified: false },
-      { platform: "GitHub", username: "alexrichardson", verified: true },
-      { platform: "Instagram", username: "@alex.codes", verified: false }
+      { platform: "LinkedIn", username: "@ahmed-alhamdani-yemen", verified: true },
+      { platform: "Twitter", username: "@ahmed_sanaa", verified: false },
+      { platform: "GitHub", username: "ahmed-alhamdani", verified: true },
+      { platform: "Instagram", username: "@ahmed.yemen", verified: false }
     ],
     digitalFootprint: {
-      score: 87,
-      risk: "Medium",
-      lastActivity: "2 hours ago"
+      score: 73,
+      risk: "High",
+      lastActivity: "47 minutes ago"
     },
-    education: "Stanford University - Computer Science",
-    interests: ["Machine Learning", "Cybersecurity", "Photography", "Rock Climbing"]
+    education: "Sana'a University - Information Technology",
+    interests: ["Network Security", "Islamic Studies", "Football", "Traditional Yemeni Music"]
   };
 
   if (isScanning) {

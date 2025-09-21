@@ -64,7 +64,7 @@ export default function OSINTSidebar({ activeModule, onModuleChange }: OSINTSide
             <Zap className="w-6 h-6 text-cyan-400" />
             <span className="font-mono text-lg font-bold text-cyan-400">OSINTraX</span>
           </div>
-          <p className="text-xs text-muted-foreground font-mono">OSINT Intelligence Platform v3.7.2</p>
+          <p className="text-xs text-muted-foreground font-mono">OSINT Intelligence Platform v4.2.1-ME</p>
         </div>
 
         <SidebarGroup>
@@ -122,7 +122,7 @@ export default function OSINTSidebar({ activeModule, onModuleChange }: OSINTSide
             </div>
             <div className="flex justify-between text-xs font-mono">
               <span className="text-muted-foreground">Data Sources</span>
-              <span className="text-cyan-400">847</span>
+              <span className="text-cyan-400">234</span>
             </div>
           </div>
         </div>

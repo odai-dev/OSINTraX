@@ -27,17 +27,17 @@ export default function DataHawkModule({ isScanning = false }: DataHawkModulePro
 
   // TODO: Remove mock military data
   const mockEquipment = [
-    { id: "T-001", type: "Main Battle Tank", status: "Active", location: "Grid 34.5°N, 69.2°E", threat: "High" },
-    { id: "H-007", type: "Attack Helicopter", status: "Standby", location: "Grid 34.6°N, 69.1°E", threat: "Critical" },
-    { id: "R-023", type: "Radar System", status: "Operational", location: "Grid 34.4°N, 69.3°E", threat: "Medium" },
-    { id: "C-012", type: "Command Center", status: "Active", location: "Grid 34.5°N, 69.2°E", threat: "High" }
+    { id: "T-012", type: "T-55 Main Battle Tank", status: "Active", location: "Grid 15.2°N, 44.1°E", threat: "High" },
+    { id: "H-003", type: "Mi-24 Attack Helicopter", status: "Standby", location: "Grid 15.3°N, 44.2°E", threat: "Critical" },
+    { id: "R-087", type: "S-75 SAM System", status: "Operational", location: "Grid 15.1°N, 44.0°E", threat: "Medium" },
+    { id: "C-045", type: "Command Bunker", status: "Active", location: "Grid 15.2°N, 44.1°E", threat: "High" }
   ];
 
   const mockNetworkNodes = [
-    { id: "NODE_001", type: "Communications Hub", connections: 47, risk: "High" },
-    { id: "NODE_002", type: "Data Center", connections: 23, risk: "Critical" },
-    { id: "NODE_003", type: "Satellite Uplink", connections: 15, risk: "Medium" },
-    { id: "NODE_004", type: "Command Network", connections: 89, risk: "Critical" }
+    { id: "NODE_001", type: "Sana'a Telecom Hub", connections: 67, risk: "High" },
+    { id: "NODE_002", type: "Military Command Center", connections: 34, risk: "Critical" },
+    { id: "NODE_003", type: "Satellite Ground Station", connections: 19, risk: "Medium" },
+    { id: "NODE_004", type: "Border Communications", connections: 45, risk: "Critical" }
   ];
 
   const handleAuthentication = () => {

@@ -12,32 +12,32 @@ export default function MapComponent({ isScanning = false }: MapComponentProps) 
     {
       id: 1,
       name: "Home Address",
-      address: "1234 Tech Street, San Francisco, CA",
-      coordinates: "37.7749° N, 122.4194° W",
-      confidence: 95,
-      lastSeen: "2 hours ago",
+      address: "Al-Sabeen District, Hadda Street, Sana'a, Yemen",
+      coordinates: "15.3694° N, 44.1910° E",
+      confidence: 91,
+      lastSeen: "47 minutes ago",
       type: "residence",
       verified: true
     },
     {
       id: 2,
       name: "Workplace",
-      address: "TechCorp Inc., 567 Innovation Blvd, San Francisco, CA",
-      coordinates: "37.7849° N, 122.4094° W",
-      confidence: 89,
-      lastSeen: "8 hours ago",
+      address: "Yemen Telecom HQ, Al-Zubairy Street, Sana'a, Yemen",
+      coordinates: "15.3547° N, 44.2066° E",
+      confidence: 88,
+      lastSeen: "9 hours ago",
       type: "workplace",
       verified: true
     },
     {
       id: 3,
       name: "Frequent Location",
-      address: "Golden Gate Park, San Francisco, CA",
-      coordinates: "37.7694° N, 122.4862° W",
-      confidence: 72,
-      lastSeen: "1 day ago",
+      address: "Al-Saleh Mosque, Old City, Sana'a, Yemen",
+      coordinates: "15.3533° N, 44.2053° E",
+      confidence: 76,
+      lastSeen: "2 days ago",
       type: "recreational",
-      verified: false
+      verified: true
     }
   ];
 

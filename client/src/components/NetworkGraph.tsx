@@ -14,13 +14,13 @@ export default function NetworkGraph({ isScanning = false }: NetworkGraphProps) 
 
   // TODO: Remove mock network data
   const mockNodes = [
-    { id: "central", x: 50, y: 50, type: "primary", label: "Alex Richardson", connections: 8, risk: "high" },
-    { id: "work1", x: 30, y: 30, type: "work", label: "TechCorp Inc.", connections: 5, risk: "medium" },
-    { id: "social1", x: 70, y: 30, type: "social", label: "LinkedIn Network", connections: 47, risk: "low" },
-    { id: "family1", x: 20, y: 70, type: "family", label: "Sarah Richardson", connections: 3, risk: "low" },
-    { id: "friend1", x: 80, y: 70, type: "friend", label: "Dev Community", connections: 23, risk: "medium" },
-    { id: "location1", x: 40, y: 80, type: "location", label: "SF Tech Hub", connections: 15, risk: "high" },
-    { id: "digital1", x: 60, y: 20, type: "digital", label: "GitHub Followers", connections: 89, risk: "medium" },
+    { id: "central", x: 50, y: 50, type: "primary", label: "Ahmed Al-Hamdani", connections: 12, risk: "high" },
+    { id: "work1", x: 30, y: 30, type: "work", label: "Yemen Telecom Corp", connections: 7, risk: "medium" },
+    { id: "social1", x: 70, y: 30, type: "social", label: "Sana'a Tech Community", connections: 34, risk: "medium" },
+    { id: "family1", x: 20, y: 70, type: "family", label: "Mohammed Al-Hamdani", connections: 4, risk: "low" },
+    { id: "friend1", x: 80, y: 70, type: "friend", label: "University Alumni", connections: 18, risk: "low" },
+    { id: "location1", x: 40, y: 80, type: "location", label: "Al-Sabeen District", connections: 23, risk: "high" },
+    { id: "digital1", x: 60, y: 20, type: "digital", label: "Islamic Forums", connections: 56, risk: "medium" },
   ];
 
   const mockConnections = [
