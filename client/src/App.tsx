@@ -17,6 +17,7 @@ import NetworkGraph from "@/components/NetworkGraph";
 import ScanningAnimation from "@/components/ScanningAnimation";
 import LiveTerminal from "@/components/LiveTerminal";
 import ThemeToggle from "@/components/ThemeToggle";
+import ImageFaceLookup from "@/components/ImageFaceLookup";
 import NotFound from "@/pages/not-found";
 import { RealTimeDataProvider, useRealTimeData } from "@/contexts/RealTimeDataContext";
 
@@ -41,6 +42,8 @@ function OSINTDashboard() {
       case "profile":
       case "personal":
         return <DataCards isScanning={isScanning} />;
+      case "image":
+        return <ImageFaceLookup isScanning={isScanning} />;
       case "geolocation":
         return <MapComponent isScanning={isScanning} />;
       case "footprint":
