@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
+import InteractiveDemo from "@/components/InteractiveDemo";
 import { 
   Upload, 
   Image as ImageIcon, 
@@ -17,7 +18,8 @@ import {
   Hash,
   Search,
   AlertCircle,
-  Target
+  Target,
+  PlayCircle
 } from "lucide-react";
 
 interface ImageFaceLookupProps {
@@ -30,6 +32,8 @@ export default function ImageFaceLookup({ isScanning }: ImageFaceLookupProps) {
   const [analysisProgress, setAnalysisProgress] = useState(0);
   const [currentStep, setCurrentStep] = useState("");
   const [showResults, setShowResults] = useState(false);
+  const [showDemo, setShowDemo] = useState(false);
+  const [demoCompleted, setDemoCompleted] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -114,14 +118,137 @@ export default function ImageFaceLookup({ isScanning }: ImageFaceLookupProps) {
     commonUsernames: ["ahmed_yamani_2024", "fatima_hdhrmi", "omar_salihi99"]
   };
 
+  // Demo steps configuration
+  const demoSteps = [
+    {
+      id: "welcome",
+      title: "Welcome to Image & Face Analysis",
+      description: "This powerful OSINT module analyzes uploaded images to find matches across social platforms and extract metadata.",
+      target: "[data-testid='image-upload-area']",
+      position: "bottom" as const,
+      action: "none" as const
+    },
+    {
+      id: "upload",
+      title: "Upload an Image",
+      description: "Click here or drag and drop an image file. The system supports JPG, PNG, and WebP formats up to 10MB.",
+      target: "[data-testid='image-upload-area']",
+      position: "bottom" as const,
+      action: "click" as const
+    },
+    {
+      id: "start-analysis",
+      title: "Start the Analysis",
+      description: "Once you've uploaded an image, click this button to begin the facial recognition and metadata extraction process.",
+      target: "[data-testid='button-start-scan']",
+      position: "top" as const,
+      action: "click" as const
+    },
+    {
+      id: "scanning",
+      title: "Analysis in Progress",
+      description: "Watch as the system processes the image through multiple databases and cross-references Yemen telecom data.",
+      target: "[data-testid='analysis-progress']",
+      position: "right" as const,
+      action: "wait" as const,
+      autoAdvance: true,
+      duration: 3000
+    },
+    {
+      id: "face-matches",
+      title: "Face Match Results",
+      description: "View potential matches found across social media platforms with similarity percentages and verification status.",
+      target: "[data-testid='face-match-1']",
+      position: "right" as const,
+      action: "none" as const
+    },
+    {
+      id: "metadata",
+      title: "Metadata Extraction",
+      description: "Technical details from the image including camera information, GPS coordinates, and file properties.",
+      target: "[data-testid='metadata-info']",
+      position: "left" as const,
+      action: "none" as const
+    },
+    {
+      id: "social-context",
+      title: "Social Context Analysis",
+      description: "Discover hashtags, usernames, and social patterns associated with the detected individuals.",
+      target: "[data-testid='hashtags-section']",
+      position: "left" as const,
+      action: "none" as const
+    },
+    {
+      id: "location",
+      title: "Geographic Intelligence",
+      description: "Location data extracted from GPS metadata, providing regional context for intelligence operations.",
+      target: "[data-testid='map-preview']",
+      position: "left" as const,
+      action: "none" as const
+    }
+  ];
+
+  const startDemoAnalysis = () => {
+    // Set demo image
+    setUploadedImage("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjE1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjE1MCIgZmlsbD0iIzMzNCI+PC9yZWN0Pjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiNhYWEiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5EZW1vIEltYWdlPC90ZXh0Pjwvc3ZnPg==");
+    
+    // Start analysis
+    setTimeout(() => {
+      startAnalysis();
+    }, 1000);
+    
+    // Show results after analysis
+    setTimeout(() => {
+      setShowResults(true);
+    }, 10000);
+  };
+
+  const handleDemoStart = () => {
+    // Reset states
+    setUploadedImage(null);
+    setShowResults(false);
+    setIsAnalyzing(false);
+  };
+
+  const handleDemoComplete = () => {
+    setDemoCompleted(true);
+    setShowDemo(false);
+  };
+
   return (
-    <div className="space-y-6">
+    <>
+      {/* Interactive Demo */}
+      <InteractiveDemo
+        isActive={showDemo}
+        onStart={handleDemoStart}
+        onComplete={handleDemoComplete}
+        onClose={() => setShowDemo(false)}
+        steps={demoSteps}
+        title="Image & Face Lookup Demo"
+        description="Learn how to use OSINTraX's powerful image analysis capabilities with this interactive walkthrough."
+      />
+
+      <div className="space-y-6">
       {/* Image Upload Section */}
       <Card className="bg-card/50 backdrop-blur-sm border-border">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-foreground">
-            <ImageIcon className="w-5 h-5 text-cyan-400" />
-            Image & Face Analysis
+          <CardTitle className="flex items-center justify-between text-foreground">
+            <div className="flex items-center gap-2">
+              <ImageIcon className="w-5 h-5 text-cyan-400" />
+              Image & Face Analysis
+            </div>
+            {!demoCompleted && (
+              <Button
+                onClick={() => setShowDemo(true)}
+                variant="outline"
+                size="sm"
+                className="border-cyan-400/50 text-cyan-400 hover:bg-cyan-400/10"
+                data-testid="button-start-demo"
+              >
+                <PlayCircle className="w-4 h-4 mr-2" />
+                Demo
+              </Button>
+            )}
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -380,6 +507,7 @@ export default function ImageFaceLookup({ isScanning }: ImageFaceLookupProps) {
           </Card>
         </div>
       )}
-    </div>
+      </div>
+    </>
   );
 }
