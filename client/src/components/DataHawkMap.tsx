@@ -86,7 +86,7 @@ export default function DataHawkMap({ isScanning = false }: DataHawkMapProps) {
     const anomalyInterval = setInterval(() => {
       const anomalyVessels = vesselBlips.filter(v => v.status === "anomaly");
       if (anomalyVessels.length > 0) {
-        setAnomalyAlert(`Unusual concentration of simulated activity detected in Sector 7 (demo). Confidence: 68% (demo)`);
+        setAnomalyAlert(`Unusual concentration of activity detected in Sector 7. Confidence: 68%`);
         setTimeout(() => setAnomalyAlert(null), 8000);
       }
     }, 15000);
@@ -94,14 +94,14 @@ export default function DataHawkMap({ isScanning = false }: DataHawkMapProps) {
     return () => clearInterval(anomalyInterval);
   }, [vesselBlips]);
 
-  // Audit logging for demo
+  // Audit logging
   const addAuditEntry = (action: string, targetId: string) => {
     const entry: AuditLogEntry = {
-      user: "analyst_demo",
+      user: "analyst",
       action,
       target_id: targetId,
       timestamp: new Date().toISOString(),
-      note: "DEMO view"
+      note: "View"
     };
     setAuditLog(prev => [entry, ...prev.slice(0, 9)]);
   };
@@ -135,24 +135,44 @@ export default function DataHawkMap({ isScanning = false }: DataHawkMapProps) {
     global: { center: [20.0, 50.0], zoom: 4 }
   };
 
+  // Tile layer configurations for different base layers
+  const getTileLayerUrl = (layer: BaseLayer) => {
+    switch (layer) {
+      case "satellite":
+        return "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}";
+      case "tactical":
+        return "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
+      case "topographic":
+        return "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png";
+      default:
+        return "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
+    }
+  };
+
+  const getTileLayerAttribution = (layer: BaseLayer) => {
+    switch (layer) {
+      case "satellite":
+        return "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP";
+      case "tactical":
+        return '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+      case "topographic":
+        return 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a>';
+      default:
+        return '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+    }
+  };
+
   return (
     <div className="h-full w-full flex flex-col">
-      {/* DEMO MODE BANNER - PROMINENTLY DISPLAYED */}
-      <div className="bg-red-600 text-white px-4 py-2 text-center font-bold text-sm">
-        🚨 DEMO MODE — SYNTHETIC DATA ONLY — NOT FOR OPERATIONAL USE 🚨
-      </div>
 
       {/* Anomaly Alert Banner */}
       {anomalyAlert && (
         <div className="bg-red-500/20 border-l-4 border-red-500 p-3 text-sm">
           <div className="flex items-center gap-2">
             <AlertTriangle className="w-4 h-4 text-red-400 animate-pulse" />
-            <strong className="text-red-400">ALERT — ANOMALY DETECTED (DEMO)</strong>
+            <strong className="text-red-400">ALERT — ANOMALY DETECTED</strong>
           </div>
           <p className="text-red-300 mt-1">{anomalyAlert}</p>
-          <p className="text-xs text-red-400 mt-1">
-            This dataset is synthetic for presentation only.
-          </p>
         </div>
       )}
 
@@ -162,7 +182,7 @@ export default function DataHawkMap({ isScanning = false }: DataHawkMapProps) {
           <CardHeader className="pb-3">
             <CardTitle className="flex items-center gap-2 text-sm">
               <Filter className="w-4 h-4" />
-              Tracking Controls (Demo)
+              Tracking Controls
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -179,7 +199,7 @@ export default function DataHawkMap({ isScanning = false }: DataHawkMapProps) {
                     onClick={() => setActiveBaseLayer(layer)}
                     data-testid={`button-layer-${layer}`}
                   >
-                    {layer.charAt(0).toUpperCase() + layer.slice(1)} (demo)
+                    {layer.charAt(0).toUpperCase() + layer.slice(1)}
                   </Button>
                 ))}
               </div>
@@ -219,7 +239,7 @@ export default function DataHawkMap({ isScanning = false }: DataHawkMapProps) {
                     onClick={() => setSelectedRegion(region)}
                     data-testid={`button-region-${region}`}
                   >
-                    {region.replace("_", " ").toUpperCase()} (demo)
+                    {region.replace("_", " ").toUpperCase()}
                   </Button>
                 ))}
               </div>
@@ -227,12 +247,12 @@ export default function DataHawkMap({ isScanning = false }: DataHawkMapProps) {
 
             {/* Search */}
             <div>
-              <h4 className="text-xs font-semibold mb-2">Search Demo Targets</h4>
+              <h4 className="text-xs font-semibold mb-2">Search Targets</h4>
               <div className="relative">
                 <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 w-3 h-3 text-muted-foreground" />
                 <input
                   type="text"
-                  placeholder="Find demo target (id/name)"
+                  placeholder="Find target (id/name)"
                   className="w-full pl-7 pr-3 py-1.5 text-xs bg-background border border-border rounded"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
@@ -243,7 +263,7 @@ export default function DataHawkMap({ isScanning = false }: DataHawkMapProps) {
 
             {/* Playback Controls */}
             <div>
-              <h4 className="text-xs font-semibold mb-2">Playback (Demo)</h4>
+              <h4 className="text-xs font-semibold mb-2">Playback Controls</h4>
               <div className="flex items-center gap-1 mb-2">
                 <Button
                   size="sm"
@@ -272,7 +292,7 @@ export default function DataHawkMap({ isScanning = false }: DataHawkMapProps) {
                 </select>
               </div>
               <div className="text-xs text-muted-foreground">
-                Speed: x{playbackSpeed} (demo playback)
+                Speed: x{playbackSpeed}
               </div>
             </div>
           </CardContent>
@@ -280,12 +300,6 @@ export default function DataHawkMap({ isScanning = false }: DataHawkMapProps) {
 
         {/* Main Map Area */}
         <div className="flex-1 relative">
-          {/* Top-right demo badge */}
-          <div className="absolute top-4 right-4 z-[1000]">
-            <Badge variant="destructive" className="bg-red-600 text-white text-xs">
-              DEMO MODE — SYNTHETIC DATA ONLY
-            </Badge>
-          </div>
 
           {/* Map Container */}
           <MapContainer
@@ -295,8 +309,8 @@ export default function DataHawkMap({ isScanning = false }: DataHawkMapProps) {
             zoomControl={false}
           >
             <TileLayer
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors (DEMO TILES)'
+              url={getTileLayerUrl(activeBaseLayer)}
+              attribution={getTileLayerAttribution(activeBaseLayer)}
             />
 
             {/* Vessel Markers */}
@@ -314,18 +328,16 @@ export default function DataHawkMap({ isScanning = false }: DataHawkMapProps) {
                     <div className="font-semibold border-b pb-1">
                       Vessel — {vessel.label}
                     </div>
-                    <div><strong>ID:</strong> {vessel.id} (demo)</div>
-                    <div><strong>Type:</strong> {vessel.vessel_type} (demo)</div>
-                    <div><strong>Last seen (demo):</strong> {vessel.last_seen_demo}</div>
-                    <div><strong>Lat/Lon:</strong> {vessel.lat.toFixed(4)}, {vessel.lon.toFixed(4)} (demo)</div>
-                    <div><strong>Speed (kn):</strong> {vessel.speed_kn} (demo)</div>
+                    <div><strong>ID:</strong> {vessel.id}</div>
+                    <div><strong>Type:</strong> {vessel.vessel_type}</div>
+                    <div><strong>Last seen:</strong> {vessel.last_seen_demo}</div>
+                    <div><strong>Lat/Lon:</strong> {vessel.lat.toFixed(4)}, {vessel.lon.toFixed(4)}</div>
+                    <div><strong>Speed (kn):</strong> {vessel.speed_kn}</div>
                     <div className="mt-2 space-x-1">
-                      <Button size="sm" variant="outline" className="text-xs h-6">View playback (demo)</Button>
-                      <Button size="sm" variant="outline" className="text-xs h-6">Flag as anomaly (demo)</Button>
+                      <Button size="sm" variant="outline" className="text-xs h-6">View playback</Button>
+                      <Button size="sm" variant="outline" className="text-xs h-6">Flag as anomaly</Button>
                     </div>
-                    <div className="text-red-500 font-semibold text-xs mt-2 pt-1 border-t">
-                      SIMULATED DATA — FOR DEMO ONLY
-                    </div>
+
                   </div>
                 </Popup>
               </Marker>
@@ -346,32 +358,24 @@ export default function DataHawkMap({ isScanning = false }: DataHawkMapProps) {
                     <div className="font-semibold border-b pb-1">
                       Aircraft — {aircraft.label}
                     </div>
-                    <div><strong>ID:</strong> {aircraft.id} (demo)</div>
+                    <div><strong>ID:</strong> {aircraft.id}</div>
                     <div><strong>Type:</strong> {aircraft.aircraft_type}</div>
                     <div><strong>Flight:</strong> {aircraft.flight_label}</div>
-                    <div><strong>Alt:</strong> {aircraft.altitude_ft} ft (demo)</div>
-                    <div><strong>Speed:</strong> {aircraft.speed_kt} kt (demo)</div>
-                    <div><strong>Last seen (demo):</strong> {aircraft.last_seen_demo}</div>
-                    <div><strong>Lat/Lon:</strong> {aircraft.lat.toFixed(4)}, {aircraft.lon.toFixed(4)} (demo)</div>
+                    <div><strong>Alt:</strong> {aircraft.altitude_ft} ft</div>
+                    <div><strong>Speed:</strong> {aircraft.speed_kt} kt</div>
+                    <div><strong>Last seen:</strong> {aircraft.last_seen_demo}</div>
+                    <div><strong>Lat/Lon:</strong> {aircraft.lat.toFixed(4)}, {aircraft.lon.toFixed(4)}</div>
                     <div className="mt-2 space-x-1">
-                      <Button size="sm" variant="outline" className="text-xs h-6">View playback (demo)</Button>
-                      <Button size="sm" variant="outline" className="text-xs h-6">Flag as anomaly (demo)</Button>
+                      <Button size="sm" variant="outline" className="text-xs h-6">View playback</Button>
+                      <Button size="sm" variant="outline" className="text-xs h-6">Flag as anomaly</Button>
                     </div>
-                    <div className="text-red-500 font-semibold text-xs mt-2 pt-1 border-t">
-                      SIMULATED DATA — FOR DEMO ONLY
-                    </div>
+
                   </div>
                 </Popup>
               </Marker>
             ))}
           </MapContainer>
 
-          {/* Bottom Footer */}
-          <div className="absolute bottom-0 left-0 right-0 bg-red-900/20 border-t border-red-500/30 px-4 py-2 z-[1000]">
-            <div className="text-xs text-red-300 text-center font-mono">
-              NOT FOR OPERATIONAL USE • ALL DATA SYNTHETIC • DEMO PRESENTATION ONLY
-            </div>
-          </div>
         </div>
 
         {/* Right Panel - Active Blips List */}
@@ -379,12 +383,12 @@ export default function DataHawkMap({ isScanning = false }: DataHawkMapProps) {
           <CardHeader className="pb-3">
             <CardTitle className="flex items-center gap-2 text-sm">
               <Target className="w-4 h-4" />
-              Active Blips (Demo)
+              Active Blips
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-2">
             <div className="text-xs text-muted-foreground mb-3">
-              {vesselBlips.length + airTracks.length} synthetic targets tracked
+              {vesselBlips.length + airTracks.length} targets tracked
             </div>
             
             {/* Vessels List */}
@@ -457,7 +461,7 @@ export default function DataHawkMap({ isScanning = false }: DataHawkMapProps) {
 
             {/* Audit Log */}
             <div className="mt-4 pt-4 border-t">
-              <h5 className="text-xs font-semibold mb-2">Audit Trail (Demo)</h5>
+              <h5 className="text-xs font-semibold mb-2">Audit Trail</h5>
               <div className="space-y-1 max-h-32 overflow-y-auto">
                 {auditLog.slice(0, 5).map((entry, idx) => (
                   <div key={idx} className="text-xs p-1 bg-muted/50 rounded">
