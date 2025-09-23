@@ -86,3 +86,59 @@ export interface RiskMetric {
   trend: 'up' | 'down' | 'stable';
   change: number;
 }
+
+// DataHawk maritime/aviation tracking types
+export interface VesselBlip {
+  id: string;
+  label: string;
+  vessel_type: string;
+  size_m: number;
+  heading_deg: number;
+  speed_kn: number;
+  last_seen_demo: string;
+  lat: number;
+  lon: number;
+  confidence_pct: number;
+  status: "normal" | "clustered" | "anomaly";
+  notes: string;
+}
+
+export interface AirTrack {
+  id: string;
+  label: string;
+  aircraft_type: string;
+  flight_label: string;
+  altitude_ft: number;
+  speed_kt: number;
+  heading_deg: number;
+  last_seen_demo: string;
+  lat: number;
+  lon: number;
+  confidence_pct: number;
+  status: "normal" | "clustered" | "anomaly";
+  notes: string;
+}
+
+export interface DataHawkData {
+  vessel_blips: VesselBlip[];
+  air_tracks: AirTrack[];
+}
+
+export interface AuditLogEntry {
+  user: string;
+  action: string;
+  target_id: string;
+  timestamp: string;
+  note: string;
+}
+
+export interface MapLayerState {
+  ships: boolean;
+  aircraft: boolean;
+  hotspots: boolean;
+  heatmap: boolean;
+  anomalyClusters: boolean;
+}
+
+export type BaseLayer = "satellite" | "tactical" | "topographic";
+export type RegionPreset = "red_sea" | "arabian_sea" | "gulf" | "global";

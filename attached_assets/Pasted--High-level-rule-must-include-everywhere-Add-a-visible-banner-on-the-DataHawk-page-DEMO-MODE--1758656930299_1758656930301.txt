@@ -1,0 +1,238 @@
+) High-level rule (must include everywhere)
+
+Add a visible banner on the DataHawk page:
+DEMO MODE — SYNTHETIC DATA ONLY — NOT FOR OPERATIONAL USE
+Every map tile, marker popup and coordinate string must append (demo) — e.g. Lat: 12.0000 (demo).
+In code put comments like: // DEMO ONLY — SYNTHETIC DATA — DO NOT USE FOR REAL OPERATIONS.
+
+2) Visual / UX spec (make it feel like MarineTraffic + Flightradar24)
+
+Overall style
+
+Dark map base with subtle terrain lines. Use neon red/orange for “targets”, cyan/green for regular traffic, gray for background.
+
+DataHawk theme: more tactical (red) accents; OSINTraX theme consistent but DataHawk darker and sharper.
+
+Left filter panel for layers/filters, top-right badge DEMO MODE — SYNTHETIC DATA ONLY.
+
+Map layers & controls
+
+Base layers toggle: “Satellite (demo)”, “Tactical (demo)”, “Topographic (demo)”. (All are placeholders / synthetic.)
+
+Time slider / playback control (like Flightradar24 replay) to animate traffic over a selected time window. Buttons: Play / Pause / Step forward / Step back / Speed x1, x2, x4.
+
+Layer toggles: Ships, Aircraft, Hotspots, Heatmap, Anomaly Clusters.
+
+Search box: “Find demo target (id/name)”.
+
+Region preset buttons: Red Sea (demo), Arabian Sea (demo), Gulf (demo), Global (demo).
+
+Markers & clusters
+
+Ship markers: small vessel icon (triangle) or dot with heading arrow; color = navy/cyan for normal, orange for high density, red for anomaly.
+
+Aircraft markers: small airplane icons with orientation showing heading; light-blue normal, orange for dense corridors, red for anomaly.
+
+Implement clustering: at low zoom cluster many blips into a cluster bubble showing count; click expands.
+
+On hover show small tooltip; on click open detail card (popup) with fields from the mock JSON.
+
+Popups / detail card (when clicking a marker)
+
+Header: Vessel / Aircraft — <Label> (demo)
+
+Basic info: ID: VSL-001 (demo), Type: Cargo (demo), Last seen (demo): 2025-09-23T12:34Z, Lat/Lon: 12.0000, 45.0000 (demo), Speed (kn/kts): 13 (demo)
+
+Short fake timeline: small list of “last 3 positions” (demo).
+
+Buttons: View playback (demo), Flag as anomaly (demo), Close.
+
+Always append prominent text: SIMULATED DATA — FOR DEMO ONLY.
+
+Playback & trails
+
+Clicking playback draws a trail polyline with fading tail and moving icon to simulate movement.
+
+Playback speed and date/time displayed top-left of map during replay.
+
+Trail color intensity correlates with activity level.
+
+Heatmaps & density
+
+Heatmap mode shows density of blips (marine traffic density or flight density). Can be toggled on/off. Use smooth, soft gradients; red = highest demo density.
+
+Anomaly visual
+
+When anomaly detector fires, show a pulsating red halo and a non-actionable banner:
+ALERT — ANOMALY DETECTED (DEMO): Unusual concentration in Sector 7 (demo). Confidence: 68% (demo).
+
+Popup explains: This is simulated. For real action verify with authorities.
+
+Side panels
+
+Left: filters (region, object type, time window, anomaly threshold).
+
+Right: list view / table of active blips with quick action buttons (view, playback).
+
+Bottom: timeline scrubber and small mini-map.
+
+3) Data model — example mock JSON
+
+Drop this into data/mock_dahawk.json. All IDs and coordinates are obviously fake/demo (rounded), and each coordinate string should include (demo) when rendered.
+
+{
+  "vessel_blips": [
+    {
+      "id": "VSL-001",
+      "label": "Horizon Trader (demo)",
+      "vessel_type": "Cargo",
+      "size_m": 180,
+      "heading_deg": 115,
+      "speed_kn": 13.4,
+      "last_seen_demo": "2025-09-23T12:32:00Z",
+      "lat": 15.1234,
+      "lon": 42.5678,
+      "confidence_pct": 88,
+      "status": "normal",
+      "notes": "Synthetic blip for demo. No real vessel ID."
+    },
+    {
+      "id": "VSL-002",
+      "label": "Blue Coral (demo)",
+      "vessel_type": "Tanker",
+      "size_m": 250,
+      "heading_deg": 270,
+      "speed_kn": 8.2,
+      "last_seen_demo": "2025-09-23T12:10:00Z",
+      "lat": 16.0000,
+      "lon": 43.0000,
+      "confidence_pct": 76,
+      "status": "clustered",
+      "notes": "Density hotspot (demo)."
+    },
+    {
+      "id": "VSL-003",
+      "label": "Harbor Light (demo)",
+      "vessel_type": "Fishing",
+      "size_m": 25,
+      "heading_deg": 45,
+      "speed_kn": 6.0,
+      "last_seen_demo": "2025-09-23T11:58:00Z",
+      "lat": 14.9000,
+      "lon": 42.4000,
+      "confidence_pct": 65,
+      "status": "anomaly",
+      "notes": "Simulated anomaly cluster near Sector 7 (demo)."
+    }
+  ],
+  "air_tracks": [
+    {
+      "id": "ACFT-001",
+      "label": "Flight-Demo 101 (demo)",
+      "aircraft_type": "A320-like (demo)",
+      "flight_label": "FD101 (demo)",
+      "altitude_ft": 26000,
+      "speed_kt": 440,
+      "heading_deg": 95,
+      "last_seen_demo": "2025-09-23T12:34:00Z",
+      "lat": 15.2000,
+      "lon": 42.7000,
+      "confidence_pct": 90,
+      "status": "normal",
+      "notes": "Simulated flight path for demo playback."
+    },
+    {
+      "id": "ACFT-002",
+      "label": "DroneSim-01 (demo)",
+      "aircraft_type": "UAV-small (demo)",
+      "flight_label": "DR01 (demo)",
+      "altitude_ft": 1200,
+      "speed_kt": 45,
+      "heading_deg": 210,
+      "last_seen_demo": "2025-09-23T12:20:00Z",
+      "lat": 15.0500,
+      "lon": 42.6000,
+      "confidence_pct": 70,
+      "status": "clustered",
+      "notes": "Low-alt demo drone activity (synthetic)."
+    },
+    {
+      "id": "ACFT-003",
+      "label": "Transit-88 (demo)",
+      "aircraft_type": "Cargo-large (demo)",
+      "flight_label": "TR88 (demo)",
+      "altitude_ft": 32000,
+      "speed_kt": 480,
+      "heading_deg": 60,
+      "last_seen_demo": "2025-09-23T11:50:00Z",
+      "lat": 15.4000,
+      "lon": 42.9000,
+      "confidence_pct": 75,
+      "status": "anomaly",
+      "notes": "Simulated abnormal corridor density (demo)."
+    }
+  ]
+}
+
+
+Notes on the mock data:
+
+Use simple numeric rounded coords (no precise real coordinates).
+
+Status values: normal / clustered / anomaly.
+
+confidence_pct is fake and used only for UI display.
+
+notes explicitly say DEMO.
+
+4) UI strings & alerts (copy/paste)
+
+Use these exact lines in the UI:
+
+Top badge: DEMO MODE — SYNTHETIC DATA ONLY
+
+Footer: NOT FOR OPERATIONAL USE
+
+Ship tooltip: Vessel: {label} — Last seen (demo): {last_seen_demo}
+
+Plane tooltip: Aircraft: {label} — Alt: {altitude_ft} ft (demo)
+
+Anomaly banner title: ALERT — ANOMALY DETECTED (DEMO)
+
+Anomaly body: Unusual concentration of simulated activity detected in Sector {sector} (demo). Confidence: {confidence}%. This dataset is synthetic for presentation only.
+
+5) Map provider & assets recommendation (demo-safe)
+
+Use static or synthetic tiles (exported images or AI-generated satellite-look tiles). Don’t connect to live satellite or ADS-B / AIS APIs.
+
+If you include “satellite” layer, it must be labelled SATELLITE (SIMULATED) and use placeholders stored in public/assets/.
+
+Use vector icons (SVG) for ships/planes and animated SVGs/CSS for movement.
+
+6) Anomaly detection behavior (demo-only)
+
+Anomaly detector runs on the mock dataset. Example rule: if > N blips in N-min window inside bounding box → set status anomaly.
+
+When anomaly triggers: show the red banner, place a pulsing red halo, and write to the audit log (e.g., anomaly_demo_2025-09-23T12:34Z).
+
+Buttons on alert: Acknowledge (demo) and View Details (demo) — details should not include any real targeting info.
+
+7) Audit trail & access control
+
+Every time a user opens the DataHawk map or clicks a marker, append an entry to audit_logs[] (fake user names like admin_demo) so the UI shows responsible access. Example log entry:
+
+{
+  "user": "analyst_demo",
+  "action": "view_marker",
+  "target_id": "VSL-003",
+  "timestamp": "2025-09-23T12:35:00Z",
+  "note": "DEMO view"
+}
+
+8) Presenter tips (to sell the drama but stay safe)
+
+Start the map in “regional overview (demo)”. Zoom into hotspots using the time slider — animate traffic density rising.
+
+When anomaly banner appears, read it aloud: “Unusual concentration detected — demo only.” Pause for dramatic effect, then open Ethics panel and emphasize simulated nature.
+
+Ask audience: “Imagine if this were real — how would you feel?” That’s the point.

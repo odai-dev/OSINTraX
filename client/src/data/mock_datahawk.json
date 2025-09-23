@@ -1,0 +1,93 @@
+{
+  "vessel_blips": [
+    {
+      "id": "VSL-001",
+      "label": "Horizon Trader (demo)",
+      "vessel_type": "Cargo",
+      "size_m": 180,
+      "heading_deg": 115,
+      "speed_kn": 13.4,
+      "last_seen_demo": "2025-09-23T12:32:00Z",
+      "lat": 15.1234,
+      "lon": 42.5678,
+      "confidence_pct": 88,
+      "status": "normal",
+      "notes": "Synthetic blip for demo. No real vessel ID."
+    },
+    {
+      "id": "VSL-002",
+      "label": "Blue Coral (demo)",
+      "vessel_type": "Tanker",
+      "size_m": 250,
+      "heading_deg": 270,
+      "speed_kn": 8.2,
+      "last_seen_demo": "2025-09-23T12:10:00Z",
+      "lat": 16.0000,
+      "lon": 43.0000,
+      "confidence_pct": 76,
+      "status": "clustered",
+      "notes": "Density hotspot (demo)."
+    },
+    {
+      "id": "VSL-003",
+      "label": "Harbor Light (demo)",
+      "vessel_type": "Fishing",
+      "size_m": 25,
+      "heading_deg": 45,
+      "speed_kn": 6.0,
+      "last_seen_demo": "2025-09-23T11:58:00Z",
+      "lat": 14.9000,
+      "lon": 42.4000,
+      "confidence_pct": 65,
+      "status": "anomaly",
+      "notes": "Simulated anomaly cluster near Sector 7 (demo)."
+    }
+  ],
+  "air_tracks": [
+    {
+      "id": "ACFT-001",
+      "label": "Flight-Demo 101 (demo)",
+      "aircraft_type": "A320-like (demo)",
+      "flight_label": "FD101 (demo)",
+      "altitude_ft": 26000,
+      "speed_kt": 440,
+      "heading_deg": 95,
+      "last_seen_demo": "2025-09-23T12:34:00Z",
+      "lat": 15.2000,
+      "lon": 42.7000,
+      "confidence_pct": 90,
+      "status": "normal",
+      "notes": "Simulated flight path for demo playback."
+    },
+    {
+      "id": "ACFT-002",
+      "label": "DroneSim-01 (demo)",
+      "aircraft_type": "UAV-small (demo)",
+      "flight_label": "DR01 (demo)",
+      "altitude_ft": 1200,
+      "speed_kt": 45,
+      "heading_deg": 210,
+      "last_seen_demo": "2025-09-23T12:20:00Z",
+      "lat": 15.0500,
+      "lon": 42.6000,
+      "confidence_pct": 70,
+      "status": "clustered",
+      "notes": "Low-alt demo drone activity (synthetic)."
+    },
+    {
+      "id": "ACFT-003",
+      "label": "Transit-88 (demo)",
+      "aircraft_type": "Cargo-large (demo)",
+      "flight_label": "TR88 (demo)",
+      "altitude_ft": 32000,
+      "speed_kt": 480,
+      "heading_deg": 60,
+      "last_seen_demo": "2025-09-23T11:50:00Z",
+      "lat": 15.4000,
+      "lon": 42.9000,
+      "confidence_pct": 75,
+      "status": "anomaly",
+      "notes": "Simulated abnormal corridor density (demo)."
+    }
+  ]
+}
