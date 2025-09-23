@@ -17,6 +17,7 @@ import satelliteImg from "@assets/generated_images/Satellite_surveillance_imager
 import equipmentImg from "@assets/generated_images/Military_equipment_surveillance_8608c55b.png";
 import networkImg from "@assets/generated_images/Network_analysis_visualization_9956df31.png";
 import { mockMilitaryEquipment, mockMilitaryNetworkNodes } from "@/lib/mockData";
+import DataHawkMap from "./DataHawkMap";
 
 interface DataHawkModuleProps {
   isScanning?: boolean;
@@ -100,24 +101,29 @@ export default function DataHawkModule({ isScanning = false }: DataHawkModulePro
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 h-full flex flex-col">
       {/* Module Header */}
-      <Card className="border-purple-500/20 bg-purple-500/5">
+      <Card className="border-red-500/20 bg-red-500/5 flex-shrink-0">
         <CardHeader className="pb-3">
           <div className="flex justify-between items-center">
-            <CardTitle className="flex items-center gap-2 text-purple-400">
+            <CardTitle className="flex items-center gap-2 text-red-400">
               <Radar className="w-5 h-5" />
-              DataHawk - Military Intelligence
+              DataHawk - Maritime/Aviation Tracking
             </CardTitle>
             <Badge variant="destructive" className="bg-red-600 text-white">
-              CLASSIFIED
+              DEMO MODE
             </Badge>
           </div>
           <p className="text-xs text-muted-foreground font-mono">
-            Advanced Military OSINT • Access Level: RESTRICTED • Session ID: DH-7749-ALPHA
+            Maritime Traffic Intelligence • Aviation Tracking • DEMO PRESENTATION ONLY • Session ID: DH-DEMO-001
           </p>
         </CardHeader>
       </Card>
+
+      {/* Main Tracking Interface */}
+      <div className="flex-1 overflow-hidden">
+        <DataHawkMap isScanning={isScanning} />
+      </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {/* Satellite Intelligence */}
