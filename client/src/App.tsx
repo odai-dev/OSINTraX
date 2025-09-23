@@ -126,16 +126,18 @@ function OSINTDashboard() {
             )}
             
             {/* Live Terminal and Module Content */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className={`grid grid-cols-1 gap-6 ${activeModule === 'datahawk' ? 'lg:grid-cols-1' : 'lg:grid-cols-3'}`}>
               {/* Module Content */}
-              <div className="lg:col-span-2" data-testid={`module-content-${activeModule}`}>
+              <div className={activeModule === 'datahawk' ? 'lg:col-span-1' : 'lg:col-span-2'} data-testid={`module-content-${activeModule}`}>
                 {renderModuleContent()}
               </div>
               
-              {/* Live Terminal */}
-              <div className="lg:col-span-1">
-                <LiveTerminal />
-              </div>
+              {/* Live Terminal - Hidden when DataHawk is active to give map more space */}
+              {activeModule !== 'datahawk' && (
+                <div className="lg:col-span-1">
+                  <LiveTerminal />
+                </div>
+              )}
             </div>
           </div>
         </main>
