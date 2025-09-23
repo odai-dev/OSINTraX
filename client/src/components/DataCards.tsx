@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import profilePhoto from "@assets/generated_images/OSINT_profile_photo_60520324.png";
 import { useRealTimeData } from "@/contexts/RealTimeDataContext";
+import { mockPersonalData, mockSocialMediaProfiles } from "@/lib/mockData";
 
 interface DataCardsProps {
   isScanning?: boolean;
@@ -21,28 +22,14 @@ interface DataCardsProps {
 
 export default function DataCards({ isScanning = false }: DataCardsProps) {
   const { getRelativeTime, lastActivity } = useRealTimeData();
-  // TODO: Remove mock data
-  const mockPersonalData = {
-    name: "Ahmed Mohammed Al-Hamdani",
-    age: 28,
-    location: "Sana'a, Yemen",
-    occupation: "Network Administrator",
-    company: "Yemen Telecommunications Corp",
-    email: "a.alhamdani@yementelecom.ye",
-    phone: "+967 1 234-567",
-    socialMedia: [
-      { platform: "LinkedIn", username: "@ahmed-alhamdani-yemen", verified: true },
-      { platform: "Twitter", username: "@ahmed_sanaa", verified: false },
-      { platform: "GitHub", username: "ahmed-alhamdani", verified: true },
-      { platform: "Instagram", username: "@ahmed.yemen", verified: false }
-    ],
+  
+  // Update digital footprint with real-time data
+  const personalData = {
+    ...mockPersonalData,
     digitalFootprint: {
-      score: 73,
-      risk: "High",
+      ...mockPersonalData.digitalFootprint,
       lastActivity: getRelativeTime(lastActivity)
-    },
-    education: "Sana'a University - Information Technology",
-    interests: ["Network Security", "Islamic Studies", "Football", "Traditional Yemeni Music"]
+    }
   };
 
   if (isScanning) {
@@ -83,22 +70,22 @@ export default function DataCards({ isScanning = false }: DataCardsProps) {
               <AvatarFallback className="bg-muted">AR</AvatarFallback>
             </Avatar>
             <div>
-              <p className="font-semibold" data-testid="text-name">{mockPersonalData.name}</p>
-              <p className="text-sm text-muted-foreground">Age: {mockPersonalData.age}</p>
+              <p className="font-semibold" data-testid="text-name">{personalData.name}</p>
+              <p className="text-sm text-muted-foreground">Age: {personalData.age}</p>
             </div>
           </div>
           <div className="space-y-2 text-sm">
             <div className="flex items-center gap-2">
               <MapPin className="w-3 h-3 text-muted-foreground" />
-              <span data-testid="text-location">{mockPersonalData.location}</span>
+              <span data-testid="text-location">{personalData.location}</span>
             </div>
             <div className="flex items-center gap-2">
               <Briefcase className="w-3 h-3 text-muted-foreground" />
-              <span>{mockPersonalData.occupation} at {mockPersonalData.company}</span>
+              <span>{personalData.occupation} at {personalData.company}</span>
             </div>
             <div className="flex items-center gap-2">
               <Mail className="w-3 h-3 text-muted-foreground" />
-              <span className="font-mono text-xs">{mockPersonalData.email}</span>
+              <span className="font-mono text-xs">{personalData.email}</span>
             </div>
           </div>
         </CardContent>
@@ -113,7 +100,7 @@ export default function DataCards({ isScanning = false }: DataCardsProps) {
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-2">
-          {mockPersonalData.socialMedia.map((social, index) => (
+          {mockSocialMediaProfiles.slice(0, 4).map((social, index) => (
             <div key={index} className="flex items-center justify-between p-2 bg-muted rounded">
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 bg-cyan-400 rounded-full" />
@@ -143,7 +130,7 @@ export default function DataCards({ isScanning = false }: DataCardsProps) {
         <CardContent className="space-y-3">
           <div className="text-center">
             <div className="text-3xl font-bold text-cyan-400" data-testid="text-footprint-score">
-              {mockPersonalData.digitalFootprint.score}
+              {personalData.digitalFootprint.score}
             </div>
             <p className="text-sm text-muted-foreground">Exposure Score</p>
           </div>
@@ -151,15 +138,15 @@ export default function DataCards({ isScanning = false }: DataCardsProps) {
             <div className="flex justify-between">
               <span className="text-sm">Risk Level:</span>
               <Badge 
-                variant={mockPersonalData.digitalFootprint.risk === 'Medium' ? 'default' : 'destructive'}
+                variant={personalData.digitalFootprint.risk === 'Medium' ? 'default' : 'destructive'}
                 className="text-xs"
               >
-                {mockPersonalData.digitalFootprint.risk}
+                {personalData.digitalFootprint.risk}
               </Badge>
             </div>
             <div className="flex justify-between text-sm">
               <span>Last Activity:</span>
-              <span className="text-cyan-400 font-mono">{mockPersonalData.digitalFootprint.lastActivity}</span>
+              <span className="text-cyan-400 font-mono">{personalData.digitalFootprint.lastActivity}</span>
             </div>
           </div>
         </CardContent>
@@ -176,12 +163,12 @@ export default function DataCards({ isScanning = false }: DataCardsProps) {
         <CardContent className="space-y-3">
           <div>
             <p className="text-sm font-semibold mb-1">Education</p>
-            <p className="text-sm text-muted-foreground">{mockPersonalData.education}</p>
+            <p className="text-sm text-muted-foreground">{personalData.education}</p>
           </div>
           <div>
             <p className="text-sm font-semibold mb-2">Interests & Hobbies</p>
             <div className="flex flex-wrap gap-1">
-              {mockPersonalData.interests.map((interest, index) => (
+              {personalData.interests.map((interest, index) => (
                 <Badge key={index} variant="outline" className="text-xs">
                   {interest}
                 </Badge>
@@ -205,14 +192,14 @@ export default function DataCards({ isScanning = false }: DataCardsProps) {
               <span className="text-sm font-semibold">Primary Phone</span>
               <Badge variant="secondary" className="text-xs h-5">Active</Badge>
             </div>
-            <p className="font-mono text-sm text-cyan-400">{mockPersonalData.phone}</p>
+            <p className="font-mono text-sm text-cyan-400">{personalData.phone}</p>
           </div>
           <div className="p-2 bg-muted rounded">
             <div className="flex justify-between">
               <span className="text-sm font-semibold">Work Email</span>
               <Badge variant="secondary" className="text-xs h-5">Verified</Badge>
             </div>
-            <p className="font-mono text-xs text-cyan-400">{mockPersonalData.email}</p>
+            <p className="font-mono text-xs text-cyan-400">{personalData.email}</p>
           </div>
         </CardContent>
       </Card>

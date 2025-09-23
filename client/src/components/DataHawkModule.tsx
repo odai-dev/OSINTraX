@@ -16,6 +16,7 @@ import {
 import satelliteImg from "@assets/generated_images/Satellite_surveillance_imagery_6e83a1d0.png";
 import equipmentImg from "@assets/generated_images/Military_equipment_surveillance_8608c55b.png";
 import networkImg from "@assets/generated_images/Network_analysis_visualization_9956df31.png";
+import { mockMilitaryEquipment, mockMilitaryNetworkNodes } from "@/lib/mockData";
 
 interface DataHawkModuleProps {
   isScanning?: boolean;
@@ -25,20 +26,7 @@ export default function DataHawkModule({ isScanning = false }: DataHawkModulePro
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [authLevel, setAuthLevel] = useState(0);
 
-  // TODO: Remove mock military data
-  const mockEquipment = [
-    { id: "T-012", type: "T-55 Main Battle Tank", status: "Active", location: "Grid 15.2°N, 44.1°E", threat: "High" },
-    { id: "H-003", type: "Mi-24 Attack Helicopter", status: "Standby", location: "Grid 15.3°N, 44.2°E", threat: "Critical" },
-    { id: "R-087", type: "S-75 SAM System", status: "Operational", location: "Grid 15.1°N, 44.0°E", threat: "Medium" },
-    { id: "C-045", type: "Command Bunker", status: "Active", location: "Grid 15.2°N, 44.1°E", threat: "High" }
-  ];
-
-  const mockNetworkNodes = [
-    { id: "NODE_001", type: "Sana'a Telecom Hub", connections: 67, risk: "High" },
-    { id: "NODE_002", type: "Military Command Center", connections: 34, risk: "Critical" },
-    { id: "NODE_003", type: "Satellite Ground Station", connections: 19, risk: "Medium" },
-    { id: "NODE_004", type: "Border Communications", connections: 45, risk: "Critical" }
-  ];
+  // Use centralized military data
 
   const handleAuthentication = () => {
     // Mock authentication process
@@ -191,11 +179,11 @@ export default function DataHawkModule({ isScanning = false }: DataHawkModulePro
                 className="w-full h-24 object-cover rounded border border-border"
               />
               <div className="absolute bottom-1 left-1 bg-black/70 text-white text-xs px-1 py-0.5 rounded">
-                {mockEquipment.length} Assets Tracked
+                {mockMilitaryEquipment.length} Assets Tracked
               </div>
             </div>
             <div className="space-y-1 max-h-32 overflow-y-auto">
-              {mockEquipment.map((item) => (
+              {mockMilitaryEquipment.map((item) => (
                 <div 
                   key={item.id} 
                   className="flex justify-between items-center p-1.5 bg-muted rounded text-xs"
@@ -238,7 +226,7 @@ export default function DataHawkModule({ isScanning = false }: DataHawkModulePro
               </div>
             </div>
             <div className="space-y-1">
-              {mockNetworkNodes.map((node) => (
+              {mockMilitaryNetworkNodes.map((node) => (
                 <div 
                   key={node.id} 
                   className="flex justify-between items-center p-1.5 bg-muted rounded text-xs"

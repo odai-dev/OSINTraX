@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Network, Users, Link, Activity, Filter } from "lucide-react";
+import { mockNetworkNodes, mockNetworkConnections, riskDistribution, connectionTypes, DEMO_CONSTANTS } from "@/lib/mockData";
 
 interface NetworkGraphProps {
   isScanning?: boolean;
@@ -11,28 +12,6 @@ interface NetworkGraphProps {
 export default function NetworkGraph({ isScanning = false }: NetworkGraphProps) {
   const [selectedNode, setSelectedNode] = useState<string | null>(null);
   const [filterType, setFilterType] = useState<string>("all");
-
-  // TODO: Remove mock network data
-  const mockNodes = [
-    { id: "central", x: 50, y: 50, type: "primary", label: "Ahmed Al-Hamdani", connections: 12, risk: "high" },
-    { id: "work1", x: 30, y: 30, type: "work", label: "Yemen Telecom Corp", connections: 7, risk: "medium" },
-    { id: "social1", x: 70, y: 30, type: "social", label: "Sana'a Tech Community", connections: 34, risk: "medium" },
-    { id: "family1", x: 20, y: 70, type: "family", label: "Mohammed Al-Hamdani", connections: 4, risk: "low" },
-    { id: "friend1", x: 80, y: 70, type: "friend", label: "University Alumni", connections: 18, risk: "low" },
-    { id: "location1", x: 40, y: 80, type: "location", label: "Al-Sabeen District", connections: 23, risk: "high" },
-    { id: "digital1", x: 60, y: 20, type: "digital", label: "Islamic Forums", connections: 56, risk: "medium" },
-  ];
-
-  const mockConnections = [
-    { from: "central", to: "work1", strength: "strong", type: "professional" },
-    { from: "central", to: "social1", strength: "medium", type: "social" },
-    { from: "central", to: "family1", strength: "strong", type: "personal" },
-    { from: "central", to: "friend1", strength: "medium", type: "social" },
-    { from: "central", to: "location1", strength: "weak", type: "geographical" },
-    { from: "central", to: "digital1", strength: "strong", type: "digital" },
-    { from: "work1", to: "location1", strength: "medium", type: "geographical" },
-    { from: "social1", to: "digital1", strength: "strong", type: "cross-platform" },
-  ];
 
   const getNodeColor = (type: string, risk: string) => {
     if (risk === "high") return "#ef4444";
@@ -95,6 +74,7 @@ export default function NetworkGraph({ isScanning = false }: NetworkGraphProps) 
                 variant={filterType === "all" ? "default" : "outline"}
                 onClick={() => setFilterType("all")}
                 className="text-xs h-7"
+                data-testid="button-filter-all"
               >
                 All
               </Button>
@@ -103,6 +83,7 @@ export default function NetworkGraph({ isScanning = false }: NetworkGraphProps) 
                 variant={filterType === "high-risk" ? "default" : "outline"}
                 onClick={() => setFilterType("high-risk")}
                 className="text-xs h-7"
+                data-testid="button-filter-high-risk"
               >
                 High Risk
               </Button>
@@ -113,9 +94,9 @@ export default function NetworkGraph({ isScanning = false }: NetworkGraphProps) 
           <div className="relative w-full h-64 bg-gray-900/50 rounded border border-border overflow-hidden">
             <svg className="absolute inset-0 w-full h-full">
               {/* Render connections */}
-              {mockConnections.map((conn, index) => {
-                const fromNode = mockNodes.find(n => n.id === conn.from);
-                const toNode = mockNodes.find(n => n.id === conn.to);
+              {mockNetworkConnections.map((conn, index) => {
+                const fromNode = mockNetworkNodes.find(n => n.id === conn.from);
+                const toNode = mockNetworkNodes.find(n => n.id === conn.to);
                 if (!fromNode || !toNode) return null;
                 
                 return (
@@ -135,7 +116,7 @@ export default function NetworkGraph({ isScanning = false }: NetworkGraphProps) 
             </svg>
             
             {/* Render nodes */}
-            {mockNodes.map((node) => (
+            {mockNetworkNodes.map((node) => (
               <div
                 key={node.id}
                 className="absolute cursor-pointer group"
@@ -183,11 +164,11 @@ export default function NetworkGraph({ isScanning = false }: NetworkGraphProps) 
             {/* Network Stats */}
             <div className="grid grid-cols-2 gap-2 text-xs">
               <div className="p-2 bg-muted rounded text-center">
-                <div className="text-lg font-bold text-cyan-400">89</div>
+                <div className="text-lg font-bold text-cyan-400">{DEMO_CONSTANTS.TOTAL_NODES}</div>
                 <div className="text-muted-foreground">Total Nodes</div>
               </div>
               <div className="p-2 bg-muted rounded text-center">
-                <div className="text-lg font-bold text-cyan-400">156</div>
+                <div className="text-lg font-bold text-cyan-400">{DEMO_CONSTANTS.TOTAL_CONNECTIONS}</div>
                 <div className="text-muted-foreground">Connections</div>
               </div>
             </div>
@@ -201,21 +182,21 @@ export default function NetworkGraph({ isScanning = false }: NetworkGraphProps) 
                     <div className="w-2 h-2 bg-red-400 rounded-full" />
                     High Risk
                   </span>
-                  <span>23</span>
+                  <span>{riskDistribution.high}</span>
                 </div>
                 <div className="flex justify-between text-xs">
                   <span className="flex items-center gap-1">
                     <div className="w-2 h-2 bg-yellow-400 rounded-full" />
                     Medium Risk
                   </span>
-                  <span>45</span>
+                  <span>{riskDistribution.medium}</span>
                 </div>
                 <div className="flex justify-between text-xs">
                   <span className="flex items-center gap-1">
                     <div className="w-2 h-2 bg-green-400 rounded-full" />
                     Low Risk
                   </span>
-                  <span>21</span>
+                  <span>{riskDistribution.low}</span>
                 </div>
               </div>
             </div>
@@ -226,19 +207,19 @@ export default function NetworkGraph({ isScanning = false }: NetworkGraphProps) 
               <div className="space-y-1 text-xs">
                 <div className="flex justify-between">
                   <span>Professional</span>
-                  <Badge variant="outline" className="text-xs h-4">67</Badge>
+                  <Badge variant="outline" className="text-xs h-4">{connectionTypes.professional}</Badge>
                 </div>
                 <div className="flex justify-between">
                   <span>Social Media</span>
-                  <Badge variant="outline" className="text-xs h-4">89</Badge>
+                  <Badge variant="outline" className="text-xs h-4">{connectionTypes.socialMedia}</Badge>
                 </div>
                 <div className="flex justify-between">
                   <span>Personal</span>
-                  <Badge variant="outline" className="text-xs h-4">23</Badge>
+                  <Badge variant="outline" className="text-xs h-4">{connectionTypes.personal}</Badge>
                 </div>
                 <div className="flex justify-between">
                   <span>Geographical</span>
-                  <Badge variant="outline" className="text-xs h-4">34</Badge>
+                  <Badge variant="outline" className="text-xs h-4">{connectionTypes.geographical}</Badge>
                 </div>
               </div>
             </div>
@@ -252,7 +233,7 @@ export default function NetworkGraph({ isScanning = false }: NetworkGraphProps) 
               <div className="space-y-1 text-xs text-muted-foreground">
                 <p>• Highly connected professional network</p>
                 <p>• Strong digital footprint across platforms</p>
-                <p>• Geographic clustering in SF Bay Area</p>
+                <p>• Geographic clustering in Sana'a region</p>
                 <p>• Multiple potential social engineering vectors</p>
               </div>
             </div>

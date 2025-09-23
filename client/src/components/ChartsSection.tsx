@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
+import { digitalFootprintData, riskMetrics, activityData, socialMediaEngagementData, riskDistributionChart, activityTrendData } from "@/lib/mockData";
 import { 
   BarChart, 
   Bar, 
@@ -22,29 +23,7 @@ interface ChartsSectionProps {
 }
 
 export default function ChartsSection({ isScanning = false }: ChartsSectionProps) {
-  // TODO: Remove mock chart data
-  const socialMediaData = [
-    { platform: "LinkedIn", posts: 34, engagement: 68 },
-    { platform: "Twitter", posts: 127, engagement: 89 },
-    { platform: "GitHub", posts: 23, engagement: 76 },
-    { platform: "Instagram", posts: 45, engagement: 92 }
-  ];
-
-  const riskDistribution = [
-    { name: "Low Risk", value: 45, color: "#10b981" },
-    { name: "Medium Risk", value: 35, color: "#f59e0b" },
-    { name: "High Risk", value: 15, color: "#ef4444" },
-    { name: "Critical", value: 5, color: "#dc2626" }
-  ];
-
-  const activityTrend = [
-    { month: "Aug", activity: 78 },
-    { month: "Sep", activity: 92 },
-    { month: "Oct", activity: 67 },
-    { month: "Nov", activity: 83 },
-    { month: "Dec", activity: 95 },
-    { month: "Jan", activity: 89 }
-  ];
+  // Use centralized data
 
   if (isScanning) {
     return (
@@ -68,7 +47,7 @@ export default function ChartsSection({ isScanning = false }: ChartsSectionProps
       {/* Digital Footprint Gauge */}
       <Card className="hover-elevate">
         <CardHeader className="pb-3">
-          <CardTitle className="flex items-center gap-2 text-sm">
+          <CardTitle className="flex items-center gap-2 text-sm" data-testid="title-footprint-score">
             <Shield className="w-4 h-4" />
             Digital Footprint Score
           </CardTitle>
@@ -100,7 +79,7 @@ export default function ChartsSection({ isScanning = false }: ChartsSectionProps
               </svg>
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-cyan-400" data-testid="gauge-score">87</div>
+                  <div className="text-2xl font-bold text-cyan-400" data-testid="gauge-score">{digitalFootprintData.find(d => d.name === 'Social Media')?.value || 87}</div>
                   <div className="text-xs text-muted-foreground">Risk Score</div>
                 </div>
               </div>
@@ -110,7 +89,7 @@ export default function ChartsSection({ isScanning = false }: ChartsSectionProps
             <div className="flex justify-between text-sm">
               <span>Exposure Level:</span>
               <Badge variant="default" className="bg-orange-500/20 text-orange-400">
-                High
+                {riskMetrics.find(r => r.category === 'Exposure Level')?.score > 8 ? 'High' : 'Medium'}
               </Badge>
             </div>
             <div className="space-y-1">
@@ -127,14 +106,14 @@ export default function ChartsSection({ isScanning = false }: ChartsSectionProps
       {/* Social Media Analysis */}
       <Card className="hover-elevate">
         <CardHeader className="pb-3">
-          <CardTitle className="flex items-center gap-2 text-sm">
+          <CardTitle className="flex items-center gap-2 text-sm" data-testid="title-social-media">
             <BarChart className="w-4 h-4" />
             Social Media Analysis
           </CardTitle>
         </CardHeader>
         <CardContent>
           <ResponsiveContainer width="100%" height={200}>
-            <BarChart data={socialMediaData}>
+            <BarChart data={socialMediaEngagementData}>
               <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
               <XAxis 
                 dataKey="platform" 
@@ -162,7 +141,7 @@ export default function ChartsSection({ isScanning = false }: ChartsSectionProps
       {/* Risk Distribution */}
       <Card className="hover-elevate">
         <CardHeader className="pb-3">
-          <CardTitle className="flex items-center gap-2 text-sm">
+          <CardTitle className="flex items-center gap-2 text-sm" data-testid="title-risk-distribution">
             <Activity className="w-4 h-4" />
             Risk Distribution
           </CardTitle>
@@ -172,14 +151,14 @@ export default function ChartsSection({ isScanning = false }: ChartsSectionProps
             <ResponsiveContainer width="60%" height={150}>
               <PieChart>
                 <Pie
-                  data={riskDistribution}
+                  data={riskDistributionChart}
                   cx="50%"
                   cy="50%"
                   innerRadius={30}
                   outerRadius={60}
                   dataKey="value"
                 >
-                  {riskDistribution.map((entry, index) => (
+                  {riskDistributionChart.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={entry.color} />
                   ))}
                 </Pie>
@@ -194,7 +173,7 @@ export default function ChartsSection({ isScanning = false }: ChartsSectionProps
               </PieChart>
             </ResponsiveContainer>
             <div className="flex-1 space-y-2">
-              {riskDistribution.map((item, index) => (
+              {riskDistributionChart.map((item, index) => (
                 <div key={index} className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <div 
@@ -214,14 +193,14 @@ export default function ChartsSection({ isScanning = false }: ChartsSectionProps
       {/* Activity Trend */}
       <Card className="hover-elevate">
         <CardHeader className="pb-3">
-          <CardTitle className="flex items-center gap-2 text-sm">
+          <CardTitle className="flex items-center gap-2 text-sm" data-testid="title-activity-trend">
             <TrendingUp className="w-4 h-4" />
             Activity Trend (6 months)
           </CardTitle>
         </CardHeader>
         <CardContent>
           <ResponsiveContainer width="100%" height={150}>
-            <LineChart data={activityTrend}>
+            <LineChart data={activityTrendData}>
               <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
               <XAxis 
                 dataKey="month" 

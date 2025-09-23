@@ -1,8 +1,40 @@
-# OSINTraX - OSINT Intelligence Platform
+# OSINTraX - Mock OSINT Intelligence Platform
 
-## Overview
+## Purpose & Idea
 
-OSINTraX is an advanced OSINT (Open Source Intelligence) platform designed for cybersecurity analysts and intelligence agencies. The application provides comprehensive intelligence gathering and analysis capabilities with a professional dark-tech aesthetic inspired by military command centers. It features multiple analysis modules including profile finding, geolocation mapping, digital footprint analysis, and an advanced "DataHawk" military intelligence module. The platform simulates real-time data processing with mock scanning capabilities, network analysis visualizations, and live terminal output for demonstration purposes.
+OSINTraX is a **fictional OSINT (Open Source Intelligence) demonstration tool** created for a Communication Skills presentation. The goal is to create an interactive and shocking presentation that grabs the audience's attention and raises awareness about online privacy and data exposure.
+
+## The App's True Purpose
+
+This is **NOT a real OSINT tool** - it's a visual demo simulation designed to:
+
+1. **Shock classmates** (with their consent) by showing how much personal data could theoretically be gathered
+2. **Demonstrate privacy risks** - make people realize how much data they leave online
+3. **Create awareness** about the importance of online privacy and digital security
+4. **Drive home the message** that if such tools were real, people would want to protect themselves
+
+The presentation strategy is to embarrass students in a controlled, educational way so they actually *feel* the impact rather than just hearing about it. This emotional response makes the privacy lesson more memorable and effective.
+
+## Technical Overview
+
+OSINTraX simulates an advanced OSINT platform with professional dark-tech aesthetics inspired by military command centers. It features multiple analysis modules including profile finding, geolocation mapping, digital footprint analysis, and an "Advanced DataHawk" module (marked as "restricted" for extra intimidation factor). The platform includes realistic mock scanning capabilities, network analysis visualizations, and live terminal output - all completely fake but visually convincing.
+
+## Ethical Disclaimer
+
+⚠️ **IMPORTANT ETHICAL NOTICE** ⚠️
+
+This application is purely educational and demonstrates potential privacy risks. All data shown is:
+- **Fictional and simulated** - No real personal data is collected or processed
+- **Yemen-focused examples** - Using culturally appropriate mock personas  
+- **For educational purposes only** - To raise awareness about online privacy
+- **Not a functional intelligence tool** - All scanning and analysis is simulated
+
+**Usage Guidelines:**
+- Only use with explicit consent from demonstration subjects
+- Explain the educational purpose before and after demonstrations
+- Emphasize that this shows potential risks, not actual data collection
+- Encourage participants to review their actual online privacy settings
+- Use responsibly to promote digital literacy and privacy awareness
 
 ## User Preferences
 

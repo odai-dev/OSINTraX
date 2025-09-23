@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Switch, Route } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
@@ -20,22 +19,20 @@ import ThemeToggle from "@/components/ThemeToggle";
 import ImageFaceLookup from "@/components/ImageFaceLookup";
 import NotFound from "@/pages/not-found";
 import { RealTimeDataProvider, useRealTimeData } from "@/contexts/RealTimeDataContext";
+import { DemoProvider, useDemoState } from "@/contexts/DemoContext";
 
 function OSINTDashboard() {
-  const [activeModule, setActiveModule] = useState("profile");
-  const [isScanning, setIsScanning] = useState(false);
-  const [scanTarget, setScanTarget] = useState("");
   const { connectionCount, currentUTC } = useRealTimeData();
+  const { 
+    activeModule, 
+    setActiveModule, 
+    isScanning, 
+    scanTarget,
+    startScan 
+  } = useDemoState();
 
-  const handleScan = (query: string) => {
-    setScanTarget(query);
-    setIsScanning(true);
-    
-    // Stop scanning after demonstration
-    setTimeout(() => {
-      setIsScanning(false);
-    }, 15000);
-  };
+  // ScanInterface will handle scanning directly through DemoContext
+  // No need for handleScan prop callback
 
   const renderModuleContent = () => {
     switch (activeModule) {
@@ -80,10 +77,10 @@ function OSINTDashboard() {
           <div className="flex items-center gap-4">
             <SidebarTrigger data-testid="button-sidebar-toggle" />
             <div>
-              <h1 className="text-lg font-bold text-foreground">
+              <h1 className="text-lg font-bold text-foreground" data-testid="text-app-title">
                 OSINTraX Intelligence Platform
               </h1>
-              <p className="text-xs text-muted-foreground font-mono">
+              <p className="text-xs text-muted-foreground font-mono" data-testid="text-app-status">
                 Module: {activeModule.charAt(0).toUpperCase() + activeModule.slice(1)} • 
                 Status: {isScanning ? 'SCANNING' : 'READY'} • 
                 Sources: {connectionCount} Active
@@ -91,7 +88,7 @@ function OSINTDashboard() {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <div className="text-xs text-muted-foreground font-mono">
+            <div className="text-xs text-muted-foreground font-mono" data-testid="text-utc-time">
               {currentUTC.toLocaleTimeString('en-US', { 
                 timeZone: 'UTC', 
                 hour12: false, 
@@ -108,7 +105,7 @@ function OSINTDashboard() {
         <main className="flex-1 overflow-auto">
           <div className="p-6 space-y-6">
             {/* Scan Interface */}
-            <ScanInterface onScan={handleScan} />
+            <ScanInterface />
             
             {/* Scanning Animation */}
             {isScanning && (
@@ -140,10 +137,12 @@ function OSINTDashboard() {
 function Router() {
   return (
     <RealTimeDataProvider>
-      <Switch>
-        <Route path="/" component={OSINTDashboard} />
-        <Route component={NotFound} />
-      </Switch>
+      <DemoProvider>
+        <Switch>
+          <Route path="/" component={OSINTDashboard} />
+          <Route component={NotFound} />
+        </Switch>
+      </DemoProvider>
     </RealTimeDataProvider>
   );
 }

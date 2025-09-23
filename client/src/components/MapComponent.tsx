@@ -1,45 +1,13 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { MapPin, Radar, Clock, AlertCircle } from "lucide-react";
+import { mockLocations } from "@/lib/mockData";
 
 interface MapComponentProps {
   isScanning?: boolean;
 }
 
 export default function MapComponent({ isScanning = false }: MapComponentProps) {
-  // TODO: Remove mock location data
-  const mockLocations = [
-    {
-      id: 1,
-      name: "Home Address",
-      address: "Al-Sabeen District, Hadda Street, Sana'a, Yemen",
-      coordinates: "15.3694° N, 44.1910° E",
-      confidence: 91,
-      lastSeen: "47 minutes ago",
-      type: "residence",
-      verified: true
-    },
-    {
-      id: 2,
-      name: "Workplace",
-      address: "Yemen Telecom HQ, Al-Zubairy Street, Sana'a, Yemen",
-      coordinates: "15.3547° N, 44.2066° E",
-      confidence: 88,
-      lastSeen: "9 hours ago",
-      type: "workplace",
-      verified: true
-    },
-    {
-      id: 3,
-      name: "Frequent Location",
-      address: "Al-Saleh Mosque, Old City, Sana'a, Yemen",
-      coordinates: "15.3533° N, 44.2053° E",
-      confidence: 76,
-      lastSeen: "2 days ago",
-      type: "recreational",
-      verified: true
-    }
-  ];
 
   const getLocationIcon = (type: string) => {
     switch (type) {
@@ -61,7 +29,7 @@ export default function MapComponent({ isScanning = false }: MapComponentProps) 
       <Card className="h-96">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Radar className="w-5 h-5 animate-spin" />
+            <Radar className="w-5 h-5 animate-spin" data-testid="icon-scanning" />
             Scanning Geolocation Data...
           </CardTitle>
         </CardHeader>
@@ -80,7 +48,7 @@ export default function MapComponent({ isScanning = false }: MapComponentProps) 
       {/* Map Visualization */}
       <Card className="h-96">
         <CardHeader className="pb-3">
-          <CardTitle className="flex items-center gap-2 text-sm">
+          <CardTitle className="flex items-center gap-2 text-sm" data-testid="title-geolocation">
             <MapPin className="w-4 h-4" />
             Geolocation Mapping
           </CardTitle>
@@ -136,7 +104,7 @@ export default function MapComponent({ isScanning = false }: MapComponentProps) 
       {/* Location Details */}
       <Card className="h-96">
         <CardHeader className="pb-3">
-          <CardTitle className="flex items-center gap-2 text-sm">
+          <CardTitle className="flex items-center gap-2 text-sm" data-testid="title-location-intel">
             <Clock className="w-4 h-4" />
             Location Intelligence
           </CardTitle>

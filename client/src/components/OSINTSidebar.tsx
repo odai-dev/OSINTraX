@@ -91,6 +91,9 @@ export default function OSINTSidebar({ activeModule, onModuleChange }: OSINTSide
                         onClick={() => onModuleChange(module.id)}
                         data-testid={`sidebar-module-${module.id}`}
                         className="flex items-center gap-3 w-full"
+                        role="button"
+                        tabIndex={0}
+                        onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && onModuleChange(module.id)}
                       >
                         <Icon className="w-4 h-4 flex-shrink-0" />
                         <span className="flex-1 font-mono text-sm">{module.title}</span>

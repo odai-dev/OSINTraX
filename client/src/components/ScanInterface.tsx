@@ -4,57 +4,39 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Search, Play, Pause, AlertCircle } from "lucide-react";
 import { Card } from "@/components/ui/card";
+import { useDemoState } from "@/contexts/DemoContext";
+import { DEMO_CONSTANTS } from "@/lib/mockData";
 
 interface ScanInterfaceProps {
-  onScan: (query: string) => void;
+  // No props needed - scanning handled internally via DemoContext
 }
 
-export default function ScanInterface({ onScan }: ScanInterfaceProps) {
+export default function ScanInterface({}: ScanInterfaceProps) {
   const [query, setQuery] = useState("");
-  const [isScanning, setIsScanning] = useState(false);
-  const [scanProgress, setScanProgress] = useState(0);
-  const [scanStatus, setScanStatus] = useState("");
+  const { 
+    isScanning, 
+    scanProgress, 
+    scanStatus, 
+    startScan, 
+    stopScan,
+    activeModule 
+  } = useDemoState();
 
-  // TODO: Remove mock scanning functionality
   const handleScan = () => {
     if (!query.trim()) return;
     
-    setIsScanning(true);
-    setScanProgress(0);
-    onScan(query);
+    // Determine scan type based on active module
+    const scanType = activeModule === 'image' ? 'image' : 
+                    activeModule === 'geolocation' ? 'geolocation' :
+                    activeModule === 'network' ? 'network' :
+                    activeModule === 'datahawk' ? 'datahawk' : 'profile';
     
-    // Mock scanning progress
-    const statuses = [
-      "Initializing OSINT modules...",
-      "Scanning social media platforms...",
-      "Analyzing digital footprints...",
-      "Cross-referencing databases...",
-      "Calculating risk profiles...",
-      "Generating intelligence report..."
-    ];
-    
-    let currentStatus = 0;
-    const interval = setInterval(() => {
-      setScanProgress(prev => {
-        const newProgress = prev + 16.67;
-        if (newProgress >= 100) {
-          clearInterval(interval);
-          setIsScanning(false);
-          setScanStatus("Scan complete - 847 data points analyzed");
-          return 100;
-        }
-        setScanStatus(statuses[Math.floor(newProgress / 16.67)] || statuses[currentStatus]);
-        currentStatus = Math.min(currentStatus + 1, statuses.length - 1);
-        return newProgress;
-      });
-    }, 1000);
+    startScan(query, scanType);
   };
 
   const toggleScan = () => {
     if (isScanning) {
-      setIsScanning(false);
-      setScanProgress(0);
-      setScanStatus("");
+      stopScan();
     } else {
       handleScan();
     }
@@ -78,7 +60,7 @@ export default function ScanInterface({ onScan }: ScanInterfaceProps) {
           </div>
           <Button 
             onClick={toggleScan}
-            disabled={!query.trim()}
+            disabled={!query.trim() && !isScanning}
             className="h-12 px-8 bg-cyan-600 hover:bg-cyan-700 border border-cyan-500"
             data-testid="button-scan-start"
           >
@@ -98,12 +80,12 @@ export default function ScanInterface({ onScan }: ScanInterfaceProps) {
 
         {/* Scanning Progress */}
         {(isScanning || scanProgress > 0) && (
-          <div className="space-y-2">
+          <div className="space-y-2" aria-live="polite" data-testid="scan-progress-container">
             <div className="flex justify-between items-center">
-              <span className="text-sm font-mono text-muted-foreground">
+              <span className="text-sm font-mono text-muted-foreground" data-testid="text-scan-status">
                 {scanStatus}
               </span>
-              <span className="text-sm font-mono text-cyan-400">
+              <span className="text-sm font-mono text-cyan-400" data-testid="text-scan-progress">
                 {Math.round(scanProgress)}%
               </span>
             </div>
@@ -123,7 +105,7 @@ export default function ScanInterface({ onScan }: ScanInterfaceProps) {
           </div>
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 bg-cyan-400 rounded-full" />
-            <span className="font-mono text-muted-foreground">Sources: 847 Active</span>
+            <span className="font-mono text-muted-foreground">Sources: {DEMO_CONSTANTS.DATA_SOURCES_ACTIVE} Active</span>
           </div>
           <div className="flex items-center gap-2">
             <AlertCircle className="w-3 h-3 text-orange-400" />
