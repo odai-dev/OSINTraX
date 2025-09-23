@@ -17,7 +17,11 @@ import ScanningAnimation from "@/components/ScanningAnimation";
 import LiveTerminal from "@/components/LiveTerminal";
 import ThemeToggle from "@/components/ThemeToggle";
 import ImageFaceLookup from "@/components/ImageFaceLookup";
+import { Link } from "wouter";
+import { Download } from "lucide-react";
 import NotFound from "@/pages/not-found";
+import Login from "@/pages/login";
+import ExportResults from "@/pages/export-results";
 import { RealTimeDataProvider, useRealTimeData } from "@/contexts/RealTimeDataContext";
 import { DemoProvider, useDemoState } from "@/contexts/DemoContext";
 
@@ -97,6 +101,12 @@ function OSINTDashboard() {
                 second: '2-digit' 
               })} UTC
             </div>
+            <Link href="/export">
+              <button className="flex items-center gap-1 px-3 py-1.5 text-sm bg-cyan-600 hover:bg-cyan-500 text-white rounded-md transition-colors" data-testid="button-export">
+                <Download className="h-3 w-3" />
+                Export
+              </button>
+            </Link>
             <ThemeToggle />
           </div>
         </header>
@@ -139,7 +149,10 @@ function Router() {
     <RealTimeDataProvider>
       <DemoProvider>
         <Switch>
+          <Route path="/login" component={Login} />
+          <Route path="/export" component={ExportResults} />
           <Route path="/" component={OSINTDashboard} />
+          <Route path="/dashboard" component={OSINTDashboard} />
           <Route component={NotFound} />
         </Switch>
       </DemoProvider>
